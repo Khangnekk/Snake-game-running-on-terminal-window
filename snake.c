@@ -11,13 +11,14 @@ int snake[1000]; // Maximum length: 1000 units
 int length; int prey = 11814; 
 int score = 0; int highest;
 
+/* Prototype declaration */
+
 void gotoxy(int x,int y); void box(); void set_color(const char *color); void gameguide(); void gameguidetv();
 int random(int a,int b); int random_prey(); int getX(int a); int getY(int a); 
 int w_highscore(); int r_highscore(); int w_language(); int r_language(); int w_level(); int r_level();
+void menu(); void slevel(); void ingame(); void gameover(); void info(); void initgame(); void setting(); void language(); 
 
-void menu(); void slevel(); void ingame(); void gameover(); void info(); void initgame(); void setting(); void language();
-//void menutv(); void sleveltv(); void ingametv(); void gameovertv(); void infotv(); void settingtv(); 
-
+/* enum in C: Assign names to constants, names that make a program easy to read and maintain. */
 
 enum state {MENU=0,INGAME,SLEVEL,GAMEOVER,INFO,SETTING,LANGUAGE} state;
 
@@ -26,7 +27,7 @@ enum state {MENU=0,INGAME,SLEVEL,GAMEOVER,INFO,SETTING,LANGUAGE} state;
 int main(){
 	set_color("01;32");
 	while(1){
-		r_language();
+		r_language(); // read data from txt file
 		switch(state){
 			case MENU:
 			menu();
@@ -166,15 +167,15 @@ int main(){
 				gameguidetv();
 			}
 		
-		int t = getch();
+		int t = getch(); // check input from keyboard
 		if(t==27){
 			gotoxy(a+3,b+2);
 			exit(0);
 		}
-    	if(t == 13){
+    	if(t == 13){  // check input from keyboard
         switch(option){
             case 1:
-                state = INGAME;
+                state = INGAME; // go to ingame screen
                 break;
             case 2:
                 state = SETTING;
@@ -503,7 +504,7 @@ void setting(){
 	if (option3 > 2) 
 	        option3=1;
 	else if (option3<1)
-	        option3= 2;
+	        option3=2;
 }
 	
 	void ingame(){
@@ -523,7 +524,7 @@ void setting(){
 					/* Control by Arrow key */
 					
 					case 72: //up
-						if(speedX!=0){
+						if(speedX!=0){ // block pressing down button while scrolling up
 							speedY=-1; speedX=0;
 						}
 					break;
@@ -581,13 +582,18 @@ void setting(){
 				}
 				snake[0] += speedY;
 				snake[0] += speedX*100;
+				
+				/*
+				snakes continue to move into the game zone from outside the game zone
+				*/
+				
 				// move y
 					if(getY(snake[0])==0){ snake[0] += (b+1); }
 					if(getY(snake[0])==(b+2)){ snake[0] -= (b+1); }
 				// move x
 					if(getX(snake[0])==0){ snake[0] += (a-1)*100; }
 					if(getX(snake[0])==a){ snake[0] += -(a-1)*100; }
-				if(snake[0]==prey){
+				if(snake[0]==prey){ // when the snake has eaten its prey
 					gotoxy(getX(prey),getY(prey));
 					printf("o");
 					length++;
@@ -602,7 +608,7 @@ void setting(){
 				printf("*");
 				for(i=1;i<length;i++){
 					if(snake[0]==snake[i]){
-						state = GAMEOVER;
+						state = GAMEOVER; 
 					}
 				}
 			}
@@ -630,7 +636,7 @@ void setting(){
 	void initgame(){
 		length = 5;
 		// original length : 5 unit
-		snake[0] = 11010;
+		snake[0] = 11010; // original coordinates
 	}
 	
 	int random(int a,int b){
@@ -709,6 +715,8 @@ void setting(){
     	sprintf(cmd, "echo|set /p=\"\e[%sm\"", color);
     	system(cmd);
 	}
+	
+	/* write and read data to txt file */
 	
 	int w_highscore(){
 		FILE *h;
