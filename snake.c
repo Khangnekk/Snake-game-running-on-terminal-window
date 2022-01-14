@@ -26,6 +26,9 @@ enum state {MENU=0,INGAME,SLEVEL,GAMEOVER,INFO,SETTING,LANGUAGE} state;
 
 int main(){
 	set_color("01;32");
+	w_language();
+	w_level();
+	w_highscore();
 	while(1){
 		r_language(); // read data from txt file
 		switch(state){
@@ -812,4 +815,3 @@ void setting(){
 	
 	
 	
-
