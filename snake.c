@@ -621,7 +621,7 @@ void setting(){
 			gotoxy(a+3,b/2-4);
 			r_highscore();
 			if(option4==1){
-				printf(" High Score = %d",highest);
+				printf(" Highest Score = %d",highest);
 			}
 			if(option4==2){
 				printf(" Diem cao nhat = %d",highest);
